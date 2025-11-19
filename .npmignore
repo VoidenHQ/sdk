@@ -33,6 +33,8 @@ tsconfig.json
 .travis.yml
 .circleci/
 .github/
+*.yml
+*.yaml
 
 # Misc
 *.log

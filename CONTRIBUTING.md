@@ -28,7 +28,7 @@ This project adheres to a Code of Conduct. By participating, you are expected to
 
 ### Prerequisites
 
-- Node.js 18.x or higher
+- Node.js 20.x or higher
 - npm or yarn
 - TypeScript knowledge
 
@@ -182,6 +182,44 @@ For feature requests:
 - **Proposed solution** - Your suggested approach
 - **Alternatives** - Other solutions you've considered
 - **Examples** - Code examples showing how it would work
+
+## Continuous Integration
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+### CI Workflow
+
+Every push to `main` and all pull requests trigger the CI workflow that:
+
+- Runs on Node.js 20.x and 22.x
+- Installs dependencies
+- Runs type checking (`npm run typecheck`)
+- Runs tests (`npm test`)
+- Builds the project (`npm run build`)
+
+All checks must pass before a PR can be merged.
+
+### Publishing Workflow
+
+When a new release is published on GitHub:
+
+1. The publish workflow automatically triggers
+2. Runs all CI checks (tests, type check, build)
+3. Publishes the package to npm with provenance
+
+### Creating a Release
+
+To publish a new version:
+
+1. Update the version in `package.json` following [Semantic Versioning](https://semver.org/)
+2. Update `CHANGELOG.md` with the new version and changes
+3. Commit the changes: `git commit -m "chore: release v1.x.x"`
+4. Create a git tag: `git tag v1.x.x`
+5. Push with tags: `git push && git push --tags`
+6. Create a GitHub release from the tag
+7. The GitHub Action will automatically publish to npm
+
+**Note:** You need the `NPM_TOKEN` secret configured in the repository settings to enable automatic publishing.
 
 ## Questions?
 

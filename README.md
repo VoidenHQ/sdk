@@ -3,6 +3,7 @@
 [![npm version](https://badge.fury.io/js/@voiden%2Fsdk.svg)](https://www.npmjs.com/package/@voiden/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+[![CI](https://github.com/VoidenHQ/sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/VoidenHQ/sdk/actions/workflows/ci.yml)
 
 Official SDK for building Voiden extensions with support for both UI (renderer process) and Electron (main process).
 
@@ -23,8 +24,8 @@ Voiden is an extensible, privacy-focused editor built on Electron and Tiptap. Th
 
 ## Prerequisites
 
-- **Node.js** 18.x or higher
-- **npm** 9.x or higher (or yarn/pnpm)
+- **Node.js** 20.x or higher
+- **npm** 10.x or higher (or yarn/pnpm)
 - **TypeScript** 5.x knowledge recommended
 - **React** 18.x (for UI extensions)
 - **Tiptap** 2.x (for custom editor blocks)
@@ -254,7 +255,7 @@ Then copy the built extension to your Voiden extensions directory.
 
 **Build errors**
 - Run `npm run typecheck` to see detailed TypeScript errors
-- Ensure you're using Node.js 18.x or higher
+- Ensure you're using Node.js 20.x or higher
 - Clear `dist` folder and rebuild: `rm -rf dist && npm run build`
 
 ### Getting Help
