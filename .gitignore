@@ -37,5 +37,5 @@ tmp/
 
 # Package files
 *.tgz
-package-lock.json
+# Note: package-lock.json should be committed for reproducible builds
 yarn.lock

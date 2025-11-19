@@ -48,6 +48,8 @@ npm run dev
 npm run typecheck
 ```
 
+**Note:** This project commits `package-lock.json` for reproducible builds. Always use `npm install` (not `npm update`) unless you're intentionally updating dependencies.
+
 ## How to Contribute
 
 ### Types of Contributions
