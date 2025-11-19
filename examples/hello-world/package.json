@@ -1,0 +1,14 @@
+{
+  "name": "voiden-extension-hello-world",
+  "version": "1.0.0",
+  "description": "A simple Hello World extension for Voiden",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc && cp src/manifest.json dist/manifest.json",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "@voiden/sdk": "^1.0.0",
+    "typescript": "^5.0.0"
+  }
+}

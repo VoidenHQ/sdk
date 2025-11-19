@@ -1,0 +1,23 @@
+{
+  "id": "hello-world",
+  "type": "community",
+  "name": "Hello World",
+  "description": "A simple example extension that shows a greeting",
+  "version": "1.0.0",
+  "author": "Voiden Team",
+  "enabled": true,
+  "priority": 50,
+  "capabilities": {
+    "slashCommands": {
+      "groups": [
+        {
+          "name": "Examples",
+          "commands": ["hello"]
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "sdk": "^1.0.0"
+  }
+}

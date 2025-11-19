@@ -1,0 +1,45 @@
+# Source files (we publish dist/)
+src/
+
+# Tests
+*.test.ts
+*.spec.ts
+vitest.config.ts
+coverage/
+.vitest/
+
+# Development files
+.github/
+.vscode/
+.idea/
+examples/
+node_modules/
+
+# Config files
+tsconfig.json
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# Documentation (included via files field in package.json)
+# We explicitly include README.md and LICENSE via package.json
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.travis.yml
+.circleci/
+.github/
+
+# Misc
+*.log
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+.env.local
+.env.*.local
