@@ -4,6 +4,12 @@ src/
 # Tests
 *.test.ts
 *.spec.ts
+dist/**/*.test.js
+dist/**/*.test.d.ts
+dist/**/*.test.d.ts.map
+dist/**/*.spec.js
+dist/**/*.spec.d.ts
+dist/**/*.spec.d.ts.map
 vitest.config.ts
 coverage/
 .vitest/
