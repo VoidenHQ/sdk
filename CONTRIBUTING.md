@@ -221,7 +221,7 @@ To publish a new version:
 6. Create a GitHub release from the tag
 7. The GitHub Action will automatically publish to npm
 
-**Note:** You need the `NPM_TOKEN` secret configured in the repository settings to enable automatic publishing.
+**Note:** Publishing uses npm Trusted Publishing (OIDC) — no `NPM_TOKEN` secret is required. The publish job runs in the `release` GitHub Actions environment, which must be configured in the repository settings to match the npm Trusted Publisher configuration.
 
 ## Questions?
 
