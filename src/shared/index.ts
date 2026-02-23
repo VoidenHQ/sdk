@@ -4,3 +4,4 @@
 
 export * from './types';
 export * from './utils/jsonc';
+export * from './utils/cookieParser';
