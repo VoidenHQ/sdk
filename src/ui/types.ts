@@ -167,6 +167,29 @@ export interface EditorAction {
 }
 
 /**
+ * Status bar item definition (for plugin-registered status bar buttons)
+ */
+export interface StatusBarItem {
+  /** Unique item identifier */
+  id: string;
+
+  /** Icon: either a lucide-react icon name (string) or a React component */
+  icon: string | React.ComponentType<{ size?: number }>;
+
+  /** Optional text label displayed next to the icon */
+  label?: string;
+
+  /** Tooltip text shown on hover */
+  tooltip: string;
+
+  /** Which side of the status bar to render on */
+  position: 'left' | 'right';
+
+  /** Click handler */
+  onClick: () => void;
+}
+
+/**
  * Document tab definition
  */
 export interface DocumentTab {
@@ -184,6 +207,9 @@ export interface Panel {
   icon: string | null;
   title: string;
   props: Record<string, any>;
+
+  /** React component to render in the custom tab */
+  component?: React.ComponentType<any>;
 }
 
 /**
@@ -564,10 +590,22 @@ export interface PluginContext {
   unregisterVoidenExtension: (extensionName: string) => void;
   registerCodemirrorExtension: (extension: any) => void;
   unregisterCodemirrorExtension: (extension: any) => void;
+  /**
+   * Add a custom tab to a panel
+   * When a `component` is provided, it is automatically registered for rendering.
+   * @param tabId - The panel ID to add the tab to (e.g., "main")
+   * @param tab - Tab definition including an optional React component
+   */
   addTab: (tabId: string, tab: Panel) => void;
   addVoidenSlashCommand: (command: SlashCommandDefinition) => void;
   addVoidenSlashGroup: (group: SlashCommandGroup) => void;
   registerEditorAction: (action: EditorAction) => void;
+
+  /**
+   * Register a status bar item (icon + optional label button)
+   * @param item - Status bar item definition
+   */
+  registerStatusBarItem: (item: StatusBarItem) => void;
 
   /**
    * Expose helpers from this plugin for other plugins to use

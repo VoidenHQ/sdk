@@ -55,6 +55,7 @@ export type {
   PanelDefinition,
   ModalDefinition,
   EditorAction,
+  StatusBarItem,
   DocumentTab,
   Panel,
   // Context types
