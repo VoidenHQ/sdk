@@ -146,6 +146,30 @@ export interface ProcessAPI {
 }
 
 /**
+ * Shell API for opening external URLs
+ */
+export interface ShellAPI {
+  /** Open a URL in the user's default browser */
+  openExternal(url: string): Promise<void>;
+}
+
+/**
+ * Environment variable replacement API
+ */
+export interface EnvAPI {
+  /** Resolve {{VARIABLE}} patterns. Pass IPC event to auto-resolve project path. */
+  replaceVariables(text: string, eventOrProjectPath: any): Promise<string>;
+}
+
+/**
+ * Project API for accessing project state
+ */
+export interface ProjectAPI {
+  /** Get the active project path */
+  getActive(event?: any): Promise<string | undefined>;
+}
+
+/**
  * Electron Extension context - provided to Electron extensions at runtime
  */
 export interface ElectronExtensionContext {
@@ -169,4 +193,26 @@ export interface ElectronExtensionContext {
 
   /** Extension metadata */
   metadata: ExtensionMetadata;
+
+  /** Shell API for opening external URLs */
+  shell: ShellAPI;
+
+  /** Environment variable replacement API */
+  env: EnvAPI;
+
+  /** Project state API */
+  project: ProjectAPI;
+}
+
+/**
+ * Factory function type for creating Electron plugins
+ */
+export type ElectronPluginFactory = (context: ElectronExtensionContext) => ElectronPlugin;
+
+/**
+ * Electron plugin interface (factory pattern)
+ */
+export interface ElectronPlugin {
+  onload(): void | Promise<void>;
+  onunload?(): void | Promise<void>;
 }

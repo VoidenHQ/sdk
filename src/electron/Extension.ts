@@ -190,6 +190,39 @@ export abstract class ElectronExtension {
   }
 
   // ========================================
+  // Shell APIs
+  // ========================================
+
+  /**
+   * Open a URL in the user's default browser
+   */
+  protected async openExternal(url: string): Promise<void> {
+    return this.ctx.shell.openExternal(url);
+  }
+
+  // ========================================
+  // Environment APIs
+  // ========================================
+
+  /**
+   * Replace {{VARIABLE}} patterns in text
+   */
+  protected async replaceVariables(text: string, eventOrProjectPath: any): Promise<string> {
+    return this.ctx.env.replaceVariables(text, eventOrProjectPath);
+  }
+
+  // ========================================
+  // Project APIs
+  // ========================================
+
+  /**
+   * Get the active project path
+   */
+  protected async getActiveProject(event?: any): Promise<string | undefined> {
+    return this.ctx.project.getActive(event);
+  }
+
+  // ========================================
   // Storage APIs
   // ========================================
 
