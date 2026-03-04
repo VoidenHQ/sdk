@@ -625,6 +625,14 @@ export interface PluginContext {
      * @returns Promise that resolves when the file is opened
      */
     openFile: (relativePath: string) => Promise<void>;
+
+    /**
+     * Import a cURL command into a new document tab.
+     * Creates a new .void document and populates it with the parsed request.
+     * @param title - Tab title (will have .void appended if needed)
+     * @param curlString - The raw cURL command to import
+     */
+    importCurl: (title: string, curlString: string) => Promise<void>;
   };
   helpers: {
     parseVoid: (markdown?: string) => any;
