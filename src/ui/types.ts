@@ -581,6 +581,22 @@ export type RequestBuildHandler = (request: any, editor: Editor) => any | Promis
 export type ResponseProcessHandler = (response: any) => void | Promise<void>;
 
 /**
+ * Table cell autocomplete suggestion item
+ */
+export interface TableCellSuggestion {
+  label: string;
+  description?: string;
+}
+
+/**
+ * Table cell suggestions configuration for a block type.
+ * Maps column indices to arrays of suggestion items.
+ */
+export type TableSuggestionsConfig = {
+  [columnIndex: number]: TableCellSuggestion[];
+};
+
+/**
  * Plugin context (legacy support - for gradual migration)
  */
 export interface PluginContext {
@@ -709,6 +725,14 @@ export interface PluginContext {
    * @param displayNames - Object mapping node type names to display names (e.g., { 'rest-request': 'Request', 'rest-body': 'Body' })
    */
   registerNodeDisplayNames: (displayNames: Record<string, string>) => void;
+
+  /**
+   * Register autocomplete suggestions for table cell blocks.
+   * Each plugin registers suggestions for the table types it owns.
+   * @param tableType - The table block type name (e.g., 'headers-table', 'assertions-table')
+   * @param suggestions - Object mapping column indices to suggestion items
+   */
+  registerTableSuggestions: (tableType: string, suggestions: TableSuggestionsConfig) => void;
 }
 
 /**
