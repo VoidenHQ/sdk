@@ -78,6 +78,7 @@ The SDK is divided into three parts:
 
 - **UI Extensions** (`@voiden/sdk/ui`) - Run in the renderer process, handle editor blocks, UI components
 - **Electron Extensions** (`@voiden/sdk/electron`) - Run in the main process, handle IPC, file system, native APIs
+- **Headless Runner** (`@voiden/sdk/runner`) - Run in CI/CD pipelines, no UI dependencies. See [Block Schema Guide](./BLOCK_SCHEMA_GUIDE.md).
 - **Shared** (`@voiden/sdk/shared`) - Shared types and utilities
 
 ## UI Extension Example

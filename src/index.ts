@@ -105,6 +105,10 @@ export type {
   ExtensionDependency,
 } from './ui/helpers';
 
+// Theme tokens
+export { THEME_CLASSES } from './ui/theme';
+export type { ThemeClasses } from './ui/theme';
+
 // Shared Types
 export type {
   ExtensionMetadata,
@@ -128,3 +132,4 @@ export type {
 // - @voiden/sdk/ui
 // - @voiden/sdk/electron
 // - @voiden/sdk/shared
+// - @voiden/sdk/runner
