@@ -5,7 +5,7 @@ export type {
   BlockAttrDef,
   BlockSchemaDef,
   CliReportEntry,
-} from './types'
+} from './types.js'
 
 export type {
   RunnerContext,
@@ -13,4 +13,4 @@ export type {
   RunnerRequestHandler,
   RunnerResponseHandler,
   RunnerFactory,
-} from './context'
+} from './context.js'

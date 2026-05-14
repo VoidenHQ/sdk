@@ -4,7 +4,7 @@ import type {
   CliResponseState, 
   CliReportEntry, 
   BlockSchemaDef 
-} from './types'
+} from './types.js'
 
 export type RunnerRequestHandler = (
   request: CliRequestState,
@@ -26,9 +26,6 @@ export interface RunnerReportAPI {
  * The context object passed to every runner plugin factory.
  */
 export interface RunnerContext {
-  // UI signal
-  ui: null
-
   // Request/Response orchestration
   onBuildRequest(handler: RunnerRequestHandler): void
   onProcessResponse(handler: RunnerResponseHandler): void
@@ -41,15 +38,16 @@ export interface RunnerContext {
   // Block normalization
   registerBlockSchema(def: BlockSchemaDef): void
 
-  // Protocol executors (e.g. for sockets/grpc)
+  // Protocol executors (e.g. for sockets/grpc handoff)
   protocols?: {
     executeWebSocket(req: any): Promise<any>
     executeGrpc(req: any): Promise<any>
   }
 
-  report: RunnerReportAPI
-  env: Record<string, string>
+  // Verbosity
   verbose: boolean
+
+  report: RunnerReportAPI
 }
 
 export type RunnerFactory = (context: RunnerContext) => { onload(): void | Promise<void> }
