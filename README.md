@@ -235,6 +235,62 @@ npm run build
 
 Then copy the built extension to your Voiden extensions directory.
 
+---
+
+## Voiden Runner (Headless)
+
+The Voiden Runner allows extensions to execute headlessly in plain Node.js environments (CLI/CI). This is essential for automation and integration testing where no UI or Electron context exists.
+
+For detailed information on how attributes are normalized, see the [Block Schema Guide](./BLOCK_SCHEMA_GUIDE.md).
+
+### Runner Example (`runner.ts`)
+
+```typescript
+import type { RunnerFactory, RunnerContext } from '@voiden/sdk/runner';
+
+const myRunner: RunnerFactory = (context: RunnerContext) => {
+  return {
+    async onload() {
+      // Define attribute defaults for headless normalization
+      context.registerBlockSchema({
+        name: 'my-custom-block',
+        attrs: { url: { default: 'https://api.example.com' } }
+      });
+
+      // Build requests from document blocks
+      context.onBuildRequest((request, blocks) => {
+        const myBlock = blocks.find(b => b.type === 'my-custom-block');
+        return myBlock ? { ...request, url: myBlock.attrs?.url, method: 'POST' } : request;
+      });
+
+      // Process responses (assertions/logging)
+      context.onProcessResponse((response, blocks, request) => {
+        if (response.status === 200) {
+          context.report.add({ type: 'assertion', passed: true, message: 'Status 200 OK' });
+        }
+      });
+    }
+  };
+};
+
+export default myRunner;
+```
+
+### Runner API Reference
+
+#### Core Methods
+- `registerBlockSchema(def: BlockSchemaDef)` - Define block attributes and defaults for normalization
+- `onBuildRequest(handler: RunnerRequestHandler)` - Transform document blocks into a request state
+- `onProcessResponse(handler: RunnerResponseHandler)` - Evaluate results and emit report entries
+- `pipeline.registerHook(stage, handler, priority?)` - Register granular pipeline hooks (e.g., pre-send, post-processing)
+- `report.add(entry: CliReportEntry)` - Emit logs or assertions to the CLI/CI output
+
+#### Context Properties
+- `env` - Flat map of resolved environment variables
+- `verbose` - Boolean flag indicating if verbose logging is enabled
+
+---
+
 ## Troubleshooting
 
 ### Common Issues

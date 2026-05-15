@@ -41,6 +41,10 @@ export type {
   ExtensionDependency,
 } from './helpers';
 
+// Export theme tokens
+export { THEME_CLASSES } from './theme';
+export type { ThemeClasses } from './theme';
+
 // Note: UI components are NOT exported from SDK
 // Extensions receive components via context.ui.components provided by the host app
 

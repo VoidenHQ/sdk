@@ -39,8 +39,8 @@
 // ========================================
 
 // UI Extension (most common use case)
-export { UIExtension } from './ui/Extension';
-export { UIExtension as Extension } from './ui/Extension'; // Alias for backward compatibility
+export { UIExtension } from './ui/Extension.js';
+export { UIExtension as Extension } from './ui/Extension.js'; // Alias for backward compatibility
 
 // UI Types
 export type {
@@ -75,10 +75,10 @@ export type {
   // Legacy types
   Plugin,
   PluginContext,
-} from './ui/types';
+} from './ui/types.js';
 
 // Pipeline API Types
-export { PipelineStage } from './ui/pipeline'; // Enum export
+export { PipelineStage } from './ui/pipeline.js'; // Enum export
 export type {
   PipelineAPI,
   HookContext,
@@ -90,10 +90,10 @@ export type {
   RestApiRequestState,
   RestApiResponseState,
   RequestPopulator,
-} from './ui/pipeline';
+} from './ui/pipeline.js';
 
 // Environment API Types
-export type { EnvironmentAPI } from './ui/environment';
+export type { EnvironmentAPI } from './ui/environment.js';
 
 // Helper System Types
 export type {
@@ -103,7 +103,11 @@ export type {
   HelperMetadata,
   HelperCapability,
   ExtensionDependency,
-} from './ui/helpers';
+} from './ui/helpers.js';
+
+// Theme tokens
+export { THEME_CLASSES } from './ui/theme.js';
+export type { ThemeClasses } from './ui/theme.js';
 
 // Shared Types
 export type {
@@ -118,7 +122,7 @@ export type {
   TestDescriptor,
   ExpectResult,
   PreRequestResult,
-} from './shared/types';
+} from './shared/types.js';
 
 // ========================================
 // Sub-path exports (explicit imports)
@@ -128,3 +132,4 @@ export type {
 // - @voiden/sdk/ui
 // - @voiden/sdk/electron
 // - @voiden/sdk/shared
+// - @voiden/sdk/runner

@@ -7,6 +7,7 @@ import { Node as TiptapNode } from '@tiptap/core';
 import { NodeViewRenderer } from '@tiptap/react';
 import { Editor } from '@tiptap/core';
 import { ExtensionMetadata, ExtensionStorage, Request } from '../shared/types';
+import type { ThemeClasses } from './theme';
 
 /**
  * Block definition - maps to Tiptap Node
@@ -733,6 +734,31 @@ export interface PluginContext {
    * @param suggestions - Object mapping column indices to suggestion items
    */
   registerTableSuggestions: (tableType: string, suggestions: TableSuggestionsConfig) => void;
+
+  /**
+   * Predefined theme class tokens that map to the app's CSS custom properties.
+   * Use these in your plugin's JSX instead of hard-coding Tailwind class names
+   * so your UI automatically follows the user's active theme.
+   *
+   * @example
+   * ```tsx
+   * // Background + text
+   * <div className={`${context.theme.bg.surface} ${context.theme.text.primary}`}>
+   *
+   * // Button
+   * <button className={`${context.theme.button.primary} ${context.theme.text.primary}`}>
+   *   Send
+   * </button>
+   *
+   * // HTTP method badge
+   * <span className={`${context.theme.http.get} ${context.theme.http.getBg}`}>GET</span>
+   *
+   * // Status
+   * <span className={context.theme.status.successText}>200 OK</span>
+   * </div>
+   * ```
+   */
+  theme: ThemeClasses;
 }
 
 /**
