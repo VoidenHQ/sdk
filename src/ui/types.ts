@@ -679,6 +679,8 @@ export interface PluginContext {
     components: UIComponents;
     /** Request-related hooks */
     hooks: RequestHooks;
+    /** Show a toast notification */
+    showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
   };
 
   /**
