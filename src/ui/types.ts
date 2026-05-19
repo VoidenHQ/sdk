@@ -600,6 +600,27 @@ export type TableSuggestionsConfig = {
 /**
  * Plugin context (legacy support - for gradual migration)
  */
+export interface PluginContextUI {
+  /** Get prose/markdown styling classes that respect the app's theme */
+  getProseClasses: () => string;
+  /** Open the right sidebar panel */
+  openRightPanel: () => void;
+  /** Close the right sidebar panel */
+  closeRightPanel: () => void;
+  /** Toggle the right sidebar panel (open if closed, close if open) */
+  toggleRightPanel: () => void;
+  /** Open the bottom panel */
+  openBottomPanel: () => void;
+  /** Close the bottom panel */
+  closeBottomPanel: () => void;
+  /** Open custom tab */
+  openRightSidebarTab: (tabId: string) => void;
+  /** Generic UI components for plugins to use */
+  components: UIComponents;
+  /** Request-related hooks */
+  hooks: RequestHooks;
+}
+
 export interface PluginContext {
   registerSidebarTab: (sidebarId: "left" | "right", tab: TabDefinition) => void;
   registerPanel: (panelId: string, panel: TabDefinition) => void;
@@ -660,28 +681,7 @@ export interface PluginContext {
      */
     from: <T extends PluginHelpers = PluginHelpers>(pluginId: string) => T | undefined;
   };
-  ui: {
-    /** Get prose/markdown styling classes that respect the app's theme */
-    getProseClasses: () => string;
-    /** Open the right sidebar panel */
-    openRightPanel: () => void;
-    /** Close the right sidebar panel */
-    closeRightPanel: () => void;
-    /** Toggle the right sidebar panel (open if closed, close if open) */
-    toggleRightPanel: () => void;
-    /** Open the bottom panel */
-    openBottomPanel: () => void;
-    /** Close the bottom panel */
-    closeBottomPanel: () => void;
-    /** Open custom tab */
-    openRightSidebarTab: (tabId: string) => void;
-    /** Generic UI components for plugins to use */
-    components: UIComponents;
-    /** Request-related hooks */
-    hooks: RequestHooks;
-    /** Show a toast notification */
-    showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
-  };
+  ui: PluginContextUI;
 
   /**
    * Paste handling API
