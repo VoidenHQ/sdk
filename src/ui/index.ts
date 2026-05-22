@@ -53,3 +53,6 @@ export type {
   SlashCommandDefinition as SlashCommand,
   TabDefinition as Tab,
 } from './types';
+
+// CorePluginContext — extended PluginContext for Voiden core plugins
+export type { CorePluginContext } from './core-plugin-context';
