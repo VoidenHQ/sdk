@@ -3,6 +3,17 @@
  */
 
 /**
+ * Permissions a community plugin must declare in its manifest.json
+ * to use the corresponding context API. Core plugins bypass all checks.
+ */
+export type PluginPermission =
+  | 'filesystem'     // context.fs.*
+  | 'settings'       // context.settings.* + context.ui.registerSettings
+  | 'events'         // context.events.on
+  | 'commandPalette' // context.registerCommand
+  | 'contextMenus';  // context.registerContextMenu
+
+/**
  * Extension metadata
  */
 export interface ExtensionMetadata {
@@ -20,6 +31,14 @@ export interface ExtensionMetadata {
 
   /** Extension icon (lucide-react name) */
   icon?: string;
+
+  /**
+   * Permissions this plugin requires.
+   * Sourced from manifest.json at install/load time.
+   * Community plugins that call a gated API without the matching permission
+   * will receive a PluginPermissionError at call time.
+   */
+  permissions?: PluginPermission[];
 }
 
 /**

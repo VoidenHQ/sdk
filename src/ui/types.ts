@@ -190,6 +190,148 @@ export interface StatusBarItem {
   onClick: () => void;
 }
 
+// ── Command Palette ────────────────────────────────────────────────────────────
+
+/**
+ * A general-purpose action registered in the command palette.
+ * Requires manifest permission: "commandPalette"
+ */
+export interface PluginCommand {
+  /** Unique command identifier (e.g. "my-plugin.run-all") */
+  id: string;
+  /** Display label shown in the palette */
+  label: string;
+  /** Optional subtitle / description */
+  description?: string;
+  /** Optional icon component from lucide-react or custom SVG */
+  icon?: React.ComponentType<any>;
+  /** Keyboard shortcut hint (display only, not bound automatically) */
+  shortcut?: string;
+  /** Optional predicate — command is hidden when this returns false */
+  when?: () => boolean;
+  /** Action to execute when the command is selected */
+  action: () => void;
+}
+
+// ── Top Navigation Bar ─────────────────────────────────────────────────────────
+
+/**
+ * An icon button injected into the top navigation bar.
+ */
+export interface PluginTopBarItem {
+  /** Unique item identifier */
+  id: string;
+  /** Icon component to render */
+  icon: React.ComponentType<any>;
+  /** Tooltip text on hover */
+  tooltip?: string;
+  /** Which side of the nav bar — defaults to 'right' */
+  position?: 'left' | 'right';
+  /** Click handler */
+  onClick: () => void;
+}
+
+// ── Context Menus ──────────────────────────────────────────────────────────────
+
+/**
+ * A single item added to a context menu surface.
+ * Requires manifest permission: "contextMenus"
+ */
+export interface PluginContextMenuItem {
+  /** Unique item identifier */
+  id: string;
+  /** Display label */
+  label: string;
+  /** Optional icon */
+  icon?: React.ComponentType<any>;
+  /** Which surface this item appears on */
+  surface: 'tab' | 'file' | 'block';
+  /** Optional predicate receiving the right-clicked target object */
+  when?: (target: any) => boolean;
+  /** Action called with the right-clicked target */
+  action: (target: any) => void;
+}
+
+// ── File System ────────────────────────────────────────────────────────────────
+
+/**
+ * Relative-path file system API. All paths are resolved relative to the active project root.
+ * Requires manifest permission: "filesystem"
+ */
+export interface PluginFS {
+  /** Read a file and return its text content */
+  read: (path: string) => Promise<string>;
+  /** Write text content to a file (creates if missing) */
+  write: (path: string, content: string) => Promise<void>;
+  /** Create a new file with optional initial content */
+  create: (path: string, content?: string) => Promise<void>;
+  /** Create a directory (and any missing parents) */
+  createDirectory: (path: string) => Promise<void>;
+  /** Delete a file or directory */
+  delete: (path: string) => Promise<void>;
+  /** Return true if the path exists */
+  exists: (path: string) => Promise<boolean>;
+  /** List entries at a path; defaults to project root when path is omitted */
+  list: (path?: string) => Promise<Array<{ name: string; path: string; type: 'file' | 'directory' }>>;
+}
+
+// ── Settings ───────────────────────────────────────────────────────────────────
+
+/**
+ * Persistent per-plugin settings (plain JSON, not encrypted).
+ * Requires manifest permission: "settings"
+ */
+export interface PluginSettings {
+  /** Get a stored setting value */
+  get: <T = any>(key: string) => Promise<T | undefined>;
+  /** Persist a setting value */
+  set: <T = any>(key: string, value: T) => Promise<void>;
+  /** Delete a setting key */
+  delete: (key: string) => Promise<void>;
+  /** Subscribe to setting changes; returns an unsubscribe function */
+  onChange: (callback: (key: string, value: any) => void) => () => void;
+}
+
+/**
+ * A section the plugin registers in the Voiden Settings panel.
+ * Requires manifest permission: "settings"
+ */
+export interface PluginSettingsSection {
+  /** Unique section identifier */
+  id: string;
+  /** Navigation label shown in the Settings sidebar */
+  title: string;
+  /** Optional icon for the nav entry */
+  icon?: React.ComponentType<any>;
+  /** The settings React component rendered in the content area */
+  component: React.ComponentType<any>;
+}
+
+// ── Events ─────────────────────────────────────────────────────────────────────
+
+/** Callback type for plugin event subscriptions */
+export type PluginEventCallback = (data: any) => void;
+
+/**
+ * Event bus for subscribing to workspace lifecycle events.
+ * Requires manifest permission: "events"
+ */
+export interface PluginEvents {
+  /**
+   * Subscribe to a lifecycle event.
+   * Returns an unsubscribe function — call it in onunload.
+   *
+   * Supported events:
+   * - 'tab:changed'          — { tabId, title, type }
+   * - 'file:saved'           — { filePath, tabId }
+   * - 'project:changed'      — { projectPath }
+   * - 'environment:changed'  — { envPath }
+   * - 'request:sent'         — { request }
+   * - 'response:received'    — { response }
+   */
+  on: (event: string, callback: PluginEventCallback) => () => void;
+}
+
 /**
  * Document tab definition
  */
@@ -621,6 +763,15 @@ export interface PluginContextUI {
   hooks: RequestHooks;
   /** Show a toast notification */
   showToast?: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
+
+  /** Inject an icon button into the top navigation bar */
+  registerTopBarItem: (item: PluginTopBarItem) => void;
+
+  /**
+   * Register a plugin settings section in the Voiden Settings panel.
+   * Requires manifest permission: "settings"
+   */
+  registerSettings: (section: PluginSettingsSection) => void;
 }
 
 export interface PluginContext {
@@ -639,6 +790,7 @@ export interface PluginContext {
   addTab: (tabId: string, tab: Panel) => void;
   addVoidenSlashCommand: (command: SlashCommandDefinition) => void;
   addVoidenSlashGroup: (group: SlashCommandGroup) => void;
+  getVoidenSlashGroups: () => SlashCommandGroup[];
   registerEditorAction: (action: EditorAction) => void;
 
   /**
@@ -763,6 +915,40 @@ export interface PluginContext {
    * ```
    */
   theme: ThemeClasses;
+
+  /**
+   * Register a general-purpose command palette entry.
+   * Requires manifest permission: "commandPalette"
+   */
+  registerCommand: (cmd: PluginCommand) => void;
+
+  /**
+   * Register a context menu item for a specific UI surface.
+   * Requires manifest permission: "contextMenus"
+   */
+  registerContextMenu: (item: PluginContextMenuItem) => void;
+
+  /**
+   * Subscribe to workspace lifecycle events.
+   * Requires manifest permission: "events"
+   *
+   * @example
+   * const unsub = context.events.on('tab:changed', ({ tabId }) => console.log(tabId));
+   * // In onunload: unsub();
+   */
+  events: PluginEvents;
+
+  /**
+   * Relative-path file system API scoped to the active project.
+   * Requires manifest permission: "filesystem"
+   */
+  fs: PluginFS;
+
+  /**
+   * Persistent per-plugin settings store.
+   * Requires manifest permission: "settings"
+   */
+  settings: PluginSettings;
 }
 
 /**

@@ -56,3 +56,15 @@ export type {
 
 // CorePluginContext — extended PluginContext for Voiden core plugins
 export type { CorePluginContext } from './core-plugin-context';
+
+// New plugin API types
+export type {
+  PluginCommand,
+  PluginTopBarItem,
+  PluginContextMenuItem,
+  PluginFS,
+  PluginSettings,
+  PluginSettingsSection,
+  PluginEventCallback,
+  PluginEvents,
+} from './types';
