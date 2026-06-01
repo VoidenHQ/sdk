@@ -60,11 +60,13 @@ export type { CorePluginContext } from './core-plugin-context';
 // New plugin API types
 export type {
   PluginCommand,
+  PluginHelpCommand,
   PluginTopBarItem,
   PluginContextMenuItem,
   PluginFS,
   PluginSettings,
   PluginSettingsSection,
+  PluginSettingField,
   PluginEventCallback,
   PluginEvents,
 } from './types';

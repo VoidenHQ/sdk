@@ -190,6 +190,23 @@ export interface StatusBarItem {
   onClick: () => void;
 }
 
+// ── Help Commands ──────────────────────────────────────────────────────────────
+
+/**
+ * A command registered in the Voiden help panel / help registry.
+ * Unlike command palette commands, these are documentation/help oriented.
+ */
+export interface PluginHelpCommand {
+  /** Unique command identifier */
+  id: string;
+  /** Display label */
+  label: string;
+  /** Optional description */
+  description?: string;
+  /** React component rendered as the help content */
+  component: React.ComponentType<any>;
+}
+
 // ── Command Palette ────────────────────────────────────────────────────────────
 
 /**
@@ -962,6 +979,17 @@ export interface PluginContext {
    * ```
    */
   theme: ThemeClasses;
+
+  /**
+   * Inject an icon button into the top navigation bar.
+   * Also available on context.ui.registerTopBarItem (alias).
+   */
+  registerTopBarItem: (item: PluginTopBarItem) => void;
+
+  /**
+   * Register a help command visible in the Help panel / help registry.
+   */
+  registerHelpCommand: (cmd: PluginHelpCommand) => void;
 
   /**
    * Register a general-purpose command palette entry.
