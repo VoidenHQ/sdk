@@ -293,6 +293,49 @@ export interface PluginSettings {
 }
 
 /**
+ * A single declarative field in a plugin settings section.
+ * Only these four input types are supported — no custom React components.
+ */
+export type PluginSettingField =
+  | {
+      type: 'text';
+      /** Storage key — passed to context.settings.get/set */
+      key: string;
+      /** Label shown above the input */
+      label: string;
+      /** Optional description shown below the label */
+      description?: string;
+      placeholder?: string;
+      defaultValue?: string;
+    }
+  | {
+      type: 'number';
+      key: string;
+      label: string;
+      description?: string;
+      placeholder?: string;
+      defaultValue?: number;
+      min?: number;
+      max?: number;
+      step?: number;
+    }
+  | {
+      type: 'select';
+      key: string;
+      label: string;
+      description?: string;
+      options: Array<{ label: string; value: string }>;
+      defaultValue?: string;
+    }
+  | {
+      type: 'toggle';
+      key: string;
+      label: string;
+      description?: string;
+      defaultValue?: boolean;
+    };
+
+/**
  * A section the plugin registers in the Voiden Settings panel.
  * Requires manifest permission: "settings"
  */
@@ -303,8 +346,12 @@ export interface PluginSettingsSection {
   title: string;
   /** Optional icon for the nav entry */
   icon?: React.ComponentType<any>;
-  /** The settings React component rendered in the content area */
-  component: React.ComponentType<any>;
+  /**
+   * Declarative field list — the host renders these using its own UI primitives.
+   * Only text, number, select, and toggle are supported.
+   * Values are automatically persisted via context.settings (userData/plugin-settings/{id}.json).
+   */
+  fields: PluginSettingField[];
 }
 
 // ── Events ─────────────────────────────────────────────────────────────────────
