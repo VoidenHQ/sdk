@@ -286,6 +286,8 @@ export interface PluginFS {
   createDirectory: (path: string) => Promise<void>;
   /** Delete a file or directory */
   delete: (path: string) => Promise<void>;
+  /** Move a file from one relative path to another; creates destination directory if missing */
+  move: (fromPath: string, toPath: string) => Promise<void>;
   /** Return true if the path exists */
   exists: (path: string) => Promise<boolean>;
   /** List entries at a path; defaults to project root when path is omitted */
