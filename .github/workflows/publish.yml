@@ -22,8 +22,9 @@ jobs:
         with:
           node-version: '22.22.1'
 
+      # npm 12 needs Node ^22.22.2; 11 supports trusted publishing (--provenance) on this Node
       - name: Upgrade npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       - name: Install dependencies
         run: npm ci
