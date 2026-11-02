@@ -159,7 +159,32 @@ export interface ShellAPI {
 export interface EnvAPI {
   /** Resolve {{VARIABLE}} patterns. Pass IPC event to auto-resolve project path. */
   replaceVariables(text: string, eventOrProjectPath: any): Promise<string>;
+  /**
+   * Resolve `{{namespace.key}}` references at request time, in the main
+   * process — e.g. a secrets plugin registering "vault" for `{{vault.api_token}}`.
+   * Return undefined (or throw) when a key can't be resolved; the request is
+   * then blocked as having an unresolved variable. An environment variable
+   * with the same full name always wins. Returns a function that unregisters it.
+   * Optional: Voiden versions before this API was added don't define it, so feature-detect it.
+   */
+  registerVariableProvider?(namespace: string, resolve: VariableResolver): () => void;
 }
+
+/** Context passed to a {@link VariableResolver}. */
+export interface VariableProviderContext {
+  /** Workspace root the request runs in. */
+  projectPath: string;
+  /** Selected environment path (e.g. "staging.eu"), or null when none is selected. */
+  activeEnv: string | null;
+  /** The request's resolved environment variables. */
+  env: Readonly<Record<string, string>>;
+}
+
+/** Resolves one key of a provider namespace — `{{vault.db/password}}` → key "db/password". */
+export type VariableResolver = (
+  key: string,
+  context: VariableProviderContext,
+) => string | undefined | Promise<string | undefined>;
 
 /**
  * Project API for accessing project state
